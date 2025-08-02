@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 Event Management Frontend
 
-## Getting Started
+This is the **frontend application** for the Event Management Platform, built using **Next.js (App Router)**, **TypeScript**, and **Tailwind CSS**. It enables users to browse, filter, and book events while providing admins with management capabilities via a secure dashboard.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🧰 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js 14+** (App Router)
+- **TypeScript** – Type-safe React components
+- **Tailwind CSS** – Utility-first CSS framework
+- **Redux Toolkit** – Global state management
+- **axios** – API interaction
+- **React Toastify** – Notifications and alerts
+- **Date-fns** – Date formatting utilities
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📲 Key Features
 
-## Learn More
+### 👤 **Authentication**
 
-To learn more about Next.js, take a look at the following resources:
+- Secure Login/Register flow
+- JWT-based session handling
+- Redux-managed auth state
+- Conditional rendering for logged-in vs guest users
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📅 **Events Listing**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- View all events in grid or card layout
+- **Filters include**:
+  - 🔍 Debounced search input
+  - 📂 Category
+  - 🌐 Online/Offline toggle
+  - 📆 Date range (start and end)
+  - 📌 Status: `UPCOMING`, `ONGOING`, `COMPLETED`
+- Paginated event results
 
-## Deploy on Vercel
+### 🖼️ **Event Detail Page**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Displays:
+  - Banner image
+  - Full description
+  - Time & date
+  - Status (computed on backend)
+  - Mode: Online/Offline
+- Registered users can:
+  - Book 1 or 2 seats
+  - Get real-time booking confirmation
+  - See "please login" prompt if not authenticated
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 💳 **My Bookings**
+
+- Logged-in users can:
+  - View personal bookings in table format
+  - See status (Confirmed, Cancelled, etc.)
+  - Cancel bookings if the event is not yet started
+  - Paginate through booking history
+
+---
+
+## 🔐 Admin Dashboard
+
+### 📋 Overview
+
+The Admin Dashboard provides administrative capabilities for event organizers and platform moderators. It is accessible only to authenticated users with the `ADMIN` role.
+
+### ✨ Features
+
+- 📄 **All Bookings Table**
+  - Displays:
+    - User name
+    - User email
+    - Event title
+    - Booking date
+    - Number of seats
+    - Status (with color-coded badges)
+  - Table supports:
+    - Scrollable responsive layout
+    - Alternating row background
+    - Clean UI with Tailwind
+
+- 🔍 **Pagination**
+  - Server-side pagination using backend metadata
+  - Admin can browse through pages of bookings
+
+- 📊 **Bookings by Event (Planned/Optional)**
+  - View bookings filtered by specific event
+  - Useful for event-specific attendance or stats
+
+> 🛠 More admin features like event creation, user management, and analytics can be added in the future.
+
+---
