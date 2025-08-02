@@ -88,9 +88,8 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {categories.map((cat) => (
-              <Link
+              <div
                 key={cat._id}
-                href={`/events/${encodeURIComponent(cat.name)}`}
                 className="block bg-white shadow hover:shadow-lg rounded overflow-hidden transition"
               >
                 <img
@@ -101,7 +100,7 @@ export default function HomePage() {
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-800">{cat.name}</h3>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
