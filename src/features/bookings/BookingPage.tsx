@@ -20,7 +20,7 @@ export default function MyBookingsPage() {
 
   const handleCancelBooking = async (bookingId: string) => {
     try {
-      await axiosInstance.patch(`/bookings/cancel/${bookingId}`);
+      await axiosInstance.patch(`/bookings/${bookingId}/cancel`);
       toast.success("Booking cancelled successfully!");
       dispatch(fetchMyBookings());
     } catch (err: any) {
@@ -34,6 +34,12 @@ export default function MyBookingsPage() {
   );
 
   const totalPages = Math.ceil(bookings.length / bookingsPerPage);
+
+  const isValidDate = (dateString: string | undefined | null) => {
+    if (!dateString) return false;
+    const date = new Date(dateString);
+    return !isNaN(date.getTime());
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
@@ -59,22 +65,22 @@ export default function MyBookingsPage() {
             </thead>
             <tbody className="divide-y divide-gray-200 text-sm text-gray-700">
               {paginatedBookings.map((booking) => {
-                const eventDate = new Date(booking.event?.date || "");
-                const eventTime = new Date(booking.event?.date || "").getTime();
-                const nowTime = new Date().getTime();
-                
-                const isCancelable = booking.status === "CONFIRMED" && eventTime > nowTime;
-                
+                const eventDate = booking.event?.date ? new Date(booking.event.date) : null;
+                const eventTime = eventDate?.getTime() ?? 0;
+                const nowTime = Date.now();
+
+                const isCancelable = booking.status?.toUpperCase() === "CONFIRMED" && eventTime > nowTime;
+
+                const bookingDateRaw = booking.bookedAt ?? booking.createdAt;
+                const showBookingDate = isValidDate(bookingDateRaw)
+                  ? format(new Date(bookingDateRaw!), "PPPp")
+                  : "N/A";
+
                 return (
                   <tr key={booking._id}>
                     <td className="px-4 py-3">{booking.event?.title || "N/A"}</td>
                     <td className="px-4 py-3">{booking.seats}</td>
-                    <td className="px-4 py-3">
-                      {format(
-                        new Date(booking.bookedAt ?? booking.createdAt ?? ""),
-                        "PPPp"
-                      )}
-                    </td>
+                    <td className="px-4 py-3">{showBookingDate}</td>
                     <td className="px-4 py-3">
                       <span className="inline-block px-2 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700">
                         {booking.status || "CONFIRMED"}
@@ -84,7 +90,7 @@ export default function MyBookingsPage() {
                       {isCancelable ? (
                         <button
                           onClick={() => handleCancelBooking(booking._id)}
-                          className="text-sm text-red-600 hover:underline"
+                          className="text-sm text-red-600 hover:underline cursor-pointer"
                         >
                           Cancel
                         </button>

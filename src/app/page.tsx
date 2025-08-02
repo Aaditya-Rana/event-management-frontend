@@ -93,7 +93,7 @@ export default function HomePage() {
                 className="block bg-white shadow hover:shadow-lg rounded overflow-hidden transition"
               >
                 <img
-                  src={cat.thumbnailUrl || "/placeholder-category.jpg"} // fallback if no image
+                  src={cat.thumbnailUrl || "/placeholder-category.jpg"} 
                   alt={cat.name}
                   className="w-full h-40 object-cover"
                 />
